@@ -1,0 +1,43 @@
+.btn {
+    position: relative;
+    font-size: 13px;
+    color: #fff;
+    background-color: #019160;
+    border-radius: 4px;
+    height: 40px;
+    padding: 0 24px;
+    text-align: center;
+    min-width: 100px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #2fbe8e;
+}
+
+.btn:focus {
+    background-color: #01b075;
+}
+
+.btn-icon {
+    padding: 0 16px 0 40px;
+}
+
+.btn-short-icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 4px;
+    background-color: #e5e5e5;
+    border: 1px solid #bbb;
+    display: flex;
+    align-items: center;
+    outline: none;
+    justify-content: center;
+    margin: 0 4px 0 0;
+    cursor: pointer;
+}
+
+.btn-short-icon:hover {
+    background-color: #e9ebee;
+}

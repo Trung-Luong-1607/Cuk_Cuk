@@ -1,0 +1,49 @@
+/**
+     * Tích hợp style cho trang web
+ */
+@import url(../base/button.css);
+@import url(../base/icon.css);
+@import url(../base/fonts.css);
+@import url(../base/input.css);
+@import url(../base/combobox.css);
+@import url(../base/paging.css);
+@import url(../base/modal.css);
+@import url(../base/popup.css);
+@import url(../base/toast.css);
+@import url(../layouts/header.css);
+@import url(../layouts/navbar.css);
+@import url(../layouts/content.css);
+/**
+     * Style mặc định cho trang web
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: inherit;
+    font-family: fontRegular;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.content {
+    width: 100%;
+    height: calc(100vh - 48px);
+
+}

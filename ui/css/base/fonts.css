@@ -1,0 +1,92 @@
+@font-face {
+    font-family: fontBlack;
+    src: url(../../assets/fonts/GoogleSans-Black.otf);
+}
+
+@font-face {
+    font-family: fontBlackItalic;
+    src: url(../../assets/fonts/GoogleSans-BlackItalic.otf);
+}
+
+@font-face {
+    font-family: fontBold;
+    src: url(../../assets/fonts/GoogleSans-Bold.otf);
+}
+
+@font-face {
+    font-family: fontBoldItalic;
+    src: url(../../assets/fonts/GoogleSans-BoldItalic.otf);
+}
+
+@font-face {
+    font-family: fontItalic;
+    src: url(../../assets/fonts/GoogleSans-Italic.otf);
+}
+
+@font-face {
+    font-family: fontLight;
+    src: url(../../assets/fonts/GoogleSans-Light.otf);
+}
+
+@font-face {
+    font-family: fontLightItalic;
+    src: url(../../assets/fonts/GoogleSans-LightItalic.otf);
+}
+
+@font-face {
+    font-family: fontMedium;
+    src: url(../../assets/fonts/GoogleSans-Medium.otf);
+}
+
+@font-face {
+    font-family: fontMediumItalic;
+    src: url(../../assets/fonts/GoogleSans-MediumItalic.otf);
+}
+
+@font-face {
+    font-family: fontRegular;
+    src: url(../../assets/fonts/GoogleSans-Regular.otf);
+}
+
+@font-face {
+    font-family: fontThin;
+    src: url(../../assets/fonts/GoogleSans-Thin.otf);
+}
+
+@font-face {
+    font-family: fontThinItalic;
+    src: url(../../assets/fonts/GoogleSans-ThinItalic.otf);
+}
+
+.heading-font {
+    font-size: 24px;
+}
+
+.title-font {
+    font-size: 20px;
+}
+
+.title2-font {
+    font-size: 15px;
+}
+
+.heading-font, .title-font, .title2-font {
+    font-family: fontBold;
+    color: #000;
+}
+
+.label-filed-input-font {
+    font-family: fontMedium;
+    font-size: 13px;
+    color: #000;
+}
+
+.label-font {
+    font-size: 13px;
+    color: #454545;
+}
+
+.sub-text {
+    font-size: 11px;
+    color: #bbb;
+}
