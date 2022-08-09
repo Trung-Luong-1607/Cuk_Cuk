@@ -24,6 +24,9 @@ class EmployeeDetail{
 
         // Hủy sự kiên submit mặc định của form
         me.removeEventSubmitForm();
+
+        // Kiểm tra trùng mã nhân viên
+        // me.checkDuplicateEmployeeCode();
     }
 
     /**
@@ -234,7 +237,6 @@ class EmployeeDetail{
             // Hủy bỏ validate
             me.form.find(".base-input.error").removeClass("error");
             me.form.find("label.error").remove();
-            // me.form.find(".notValidControl").removeClass("notValidControl");
         }
 
     /**
@@ -286,19 +288,21 @@ class EmployeeDetail{
      * Lưu dữ liệu
      */
     save(){
-        let me = this;
-            me.validateForm();
-
+        let me = this,
+            isValid = me.validateForm();
+            // Kiểm tra validate form
+            if(isValid){
+            // Lưu data
             let data = me.getFormData();
-
-            // // Lưu data
             if ($('#FormEmployee').valid()) {
                 me.saveData(data);
             }
         }
+        }
 
     validateForm() {
-        $("#FormEmployee").validate({
+        let me = this,
+        isValid = $("#FormEmployee").validate({
             rules: {
                 employeeCode: {
                     required: true,
@@ -323,7 +327,10 @@ class EmployeeDetail{
                     gmail: true
                 },
                 phoneNumber: {
-                    required: true
+                    required: true,
+                    validPhoneNumber: true,
+                    maxlength: 11,
+                    minlength: 10
                 },
                 dateOfBirth: {
                     validDate: true
@@ -334,9 +341,61 @@ class EmployeeDetail{
                 joiningDate: {
                     validDate: true
                 }         
+            },
+            messages: {
+                identityNumber: {
+                    minlength: jQuery.validator.format("Vui lòng nhập tối thiểu 9 ký tự số."),
+                    maxlength: jQuery.validator.format("Vượt quá giới hạn 12 ký tự số. Vui lòng nhập lại.")
+                },
+                taxCode: {
+                    maxlength: "Vui lòng nhập đúng định dạng mã số thuế cá nhân (10 chữ số từ 0 - 9).",
+                    minlength: "Vui lòng nhập đúng định dạng mã số thuế cá nhân (10 chữ số từ 0 - 9)."
+                },
+                phoneNumber: {
+                    maxlength: jQuery.validator.format("Vượt quá giới hạn 11 ký tự số. Vui lòng nhập lại."),
+                    minlength: jQuery.validator.format("Vui lòng nhập tối thiểu 10 ký tự số.")
+                }
             }
         });
+
+        if(isValid){
+            // Kiểm tra trùng mã nhân viên
+            isValid = me.checkDuplicateEmployeeCode(); 
+        }
+        return isValid;
     }
+
+    /**
+     * Kiểm tra trùng mã nhân viên
+     */
+
+        checkDuplicateEmployeeCode() {
+            let me = this,  
+            isValid = true,      
+            empCode = $("input[FieldName='employeeCode']"),
+            currentEmpCode = localStorage.getItem('employeeCode'),
+            url = "https://localhost:7256/api/v1/Employees/check-duplicate-Employee-Code?code=" + empCode.val();
+            
+            if(currentEmpCode === empCode.val() && me.formMode == Enumeration.FormMode.Edit) {
+                isValid = true;         
+            } else {
+            CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
+                if(response){ 
+                    if(response.checkEmployeeCode === 1) {
+                    isValid = false;
+                    alert("Mã nhân viên đã được sử dụng. Vui lòng thử lại!")
+                }
+                else {
+                isValid = true;
+                }
+
+                } else{
+                    alert("Có lỗi xảy ra. Vui lòng thử lại!");
+                }                
+            });
+        }
+            return isValid;
+        }
 
     /**
      * Lấy dữ liệu form
@@ -389,6 +448,7 @@ class EmployeeDetail{
         toastSuccess = $(".toast-success"),
         toastError = $(".toast-error"),
         gridEmp = $("#gridEmployee"),
+        btnDup = $("button[CommandType='duplicate']"),
         method = Resource.Method.Post,
         urlFull = "https://localhost:7256/api/v1/Employees";
         
@@ -402,8 +462,10 @@ class EmployeeDetail{
         CommonFn.Ajax(urlFull, method, data, function(response){
             if(response){  
                 me.close();
+                me.getNewCodeToServer();
                 gridEmp.attr("ItemId","");
                 me.parent.getData();
+                btnDup.attr("disabled",true);
                 toastSuccess.show();
                 setTimeout(function(){
                     toastSuccess.hide();
@@ -453,7 +515,7 @@ class EmployeeDetail{
     /**
      * Lấy mã nhân viên mới nhất từ server
      */
-     getNewCodeToServer() {
+    getNewCodeToServer() {
         let me = this,
         url = "https://localhost:7256/api/v1/Employees/new-code";
 
@@ -481,7 +543,8 @@ class EmployeeDetail{
 
     // Binding dữ liệu form
     bindingData(data){
-        let me = this;    
+        let me = this;   
+
             // Duyệt từng control để binding dữ liệu
         me.form.find("[FieldName]").each(function(){
             let fieldName = $(this).attr("FieldName"),

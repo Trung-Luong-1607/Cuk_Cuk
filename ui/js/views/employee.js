@@ -36,8 +36,6 @@ class EmployeePage{
         // Lấy dữ liệu department input 
         me.getDataDepartmentInput();
 
-
-
         // Refresh page
         me.refresh();
     }
@@ -270,8 +268,6 @@ class EmployeePage{
             CommonFn.Ajax(url, Resource.Method.Delete, {}, function(response){
                 if(response){
                     $(".pop-up-notice").attr("ItemId","");
-                    $(".pop-up-title-header p").text("NV000XXX");
-                    $(".notice-details p").text("NV000XXX");
                     me.getData();
                     popUp.hide();
                     toastSuccess.show();
@@ -279,8 +275,6 @@ class EmployeePage{
                         toastSuccess.hide();
                     }, 2000);
                 }else{
-                    $(".pop-up-title-header p").text("NV000XXX");
-                    $(".notice-details p").text("NV000XXX");
                     me.getData();
                     popUp.hide();
                     toastError.show();
@@ -300,6 +294,7 @@ class EmployeePage{
     refresh(){
         let me = this;
         me.getDataServer();
+        me.formDetail.getNewCodeToServer();
     }
 
     /**
@@ -339,13 +334,15 @@ class EmployeePage{
      * Khởi tạo sự kiện cho table
      */
     initEventsTable(){
-        let me = this;
+        let me = this,
+        btnDup = $("button[CommandType='duplicate']");
 
         // Khởi tạo sự kiện khi click vào dòng
         me.grid.off("click", ".tbody .tr");
         me.grid.on("click",".tbody .tr", function(){
             me.grid.find(".active-row").removeClass("active-row");
             $(this).addClass("active-row");
+            btnDup.removeAttr("disabled");
             // Làm một số thứ sau khi binding xong
             me.afterBinding();
         });
@@ -382,7 +379,10 @@ class EmployeePage{
      */
         getSelectedRecord(){
             let me = this,
+                empCode = "",
                 data = me.grid.find(".active-row").eq(0).data("data");
+                empCode = data["employeeCode"];
+                localStorage.setItem('employeeCode', empCode); 
             return data;
         }
 
@@ -458,7 +458,7 @@ class EmployeePage{
     
             // Gọi ajax lấy dữ liệu trên server
             CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
-                if(response){    
+                if(response){ 
                     me.loadData(response);
                 }else{
                     console.log("Có lỗi khi lấy dữ liệu từ server");

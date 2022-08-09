@@ -129,10 +129,10 @@
                         <button class="btn-short-icon" title="Xoá nhân viên" CommandType="delete">
                             <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
                         </button>
-                        <button class="btn-short-icon btn-copy" title="Nhân bản" CommandType="duplicate">
+                        <button class="btn-short-icon btn-copy" title="Nhân bản" CommandType="duplicate" disabled>
                             <img src="../assets/icons/duplicate.png" alt="" class="replication-emp-icon">
                         </button>
-                        <button class="btn-short-icon btn-reload" title="Refresh" CommandType="refresh">
+                        <button class="btn-short-icon btn-reload undisabled" title="Refresh" CommandType="refresh">
                             <img src="../assets/icons/refresh.png" alt="">
                         </button>
                     </div>
@@ -219,12 +219,10 @@
                         <div class="input-control">
                             <label class="label-input">Mã nhân viên (<span style="color: red;">*</span>)</label>
                             <input class="base-input" FieldName="employeeCode" Required type="text" id="auto-focus" name="employeeCode">
-                            <!-- <p>Vui lòng nhập dữ liệu không được để trống!</p> -->
                         </div>
                         <div class="input-control">
                             <label class="label-input">Họ và tên (<span style="color: red;">*</span>)</label>
                             <input class="base-input" FieldName="employeeName" Required type="text" name="employeeName">
-                            <!-- <p>Vui lòng nhập dữ liệu không được để trống!</p> -->
                         </div>
                     </div>
                     <div class="input-control-wrap">
@@ -246,7 +244,6 @@
                         <div class="input-control">
                             <label class="label-input">Số CMTND/ Căn cước (<span style="color: red;">*</span>)</label>
                             <input class="base-input" type="text" FieldName="identityNumber" Required name="identityNumber">
-                            <!-- <p>Vui lòng nhập dữ liệu không được để trống!</p> -->
                         </div>
                         <div class="input-control">
                             <label class="label-input">Ngày cấp</label>
@@ -263,12 +260,10 @@
                         <div class="input-control">
                             <label class="label-input">Email (<span style="color: red;">*</span>)</label>
                             <input class="base-input" type="text" FieldName="email" Required name="email">
-                            <!-- <p>Vui lòng nhập dữ liệu không được để trống!</p> -->
                         </div>
                         <div class="input-control">
                             <label class="label-input">Số điện thoại (<span style="color: red;">*</span>)</label>
                             <input class="base-input" type="text" FieldName="phoneNumber" Required name="phoneNumber">
-                            <!-- <p>Vui lòng nhập dữ liệu không được để trống!</p> -->
                         </div>
                     </div>
                    

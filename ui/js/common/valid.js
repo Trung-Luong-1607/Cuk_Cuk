@@ -10,8 +10,8 @@ $.extend($.validator.messages, {
     creditcard: "Please enter a valid credit card number.",
     equalTo: "Please enter the same value again.",
     accept: "Please enter a value with a valid extension.",
-    maxlength: jQuery.validator.format("Mã số nhập quá giới hạn, vui lòng nhập lại."),
-    minlength: jQuery.validator.format("Vui lòng nhập tối thiểu chữ số."),
+    maxlength: jQuery.validator.format("Ký tự nhập quá giới hạn, vui lòng nhập lại."),
+    minlength: jQuery.validator.format("Vui lòng nhập tối thiểu ký tự."),
     rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
     range: jQuery.validator.format("Please enter a value between {0} and {1}."),
     max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
@@ -36,6 +36,10 @@ $.validator.addMethod("validIdentityNumber", function(value, element) {
     return this.optional(element) || /^[0-9]*$/i.test(value);
 }, "Vui lòng nhập đúng định dạng CMTND/ Căn cước (Tối thiểu 9 và tối đa 12 chữ số từ 0 - 9).");
 
+$.validator.addMethod("validPhoneNumber", function(value, element) {
+    return this.optional(element) || /^[0-9]*$/i.test(value);
+}, "Vui lòng nhập đúng định dạng số điện thoại (Tối thiểu 10 và tối đa 11 chữ số từ 0 - 9).");
+
 $.validator.addMethod("validTaxCode", function(value, element) {
     return this.optional(element) || /^[0-9]*$/i.test(value);
 }, "Vui lòng nhập đúng định dạng mã số thuế cá nhân (10 chữ số từ 0 - 9).");
@@ -49,4 +53,5 @@ $.validator.addMethod("validEmployeeCode", function(value, element) {
     }
 
 }, "Vui lòng nhập đúng định dạng mã nhân viên (NVXXXXXX với X là chữ số từ 0 - 9).");
+
 
