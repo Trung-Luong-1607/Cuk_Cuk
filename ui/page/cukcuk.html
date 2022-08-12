@@ -84,6 +84,7 @@
                 </div>
             </header>
 
+            <!-- Nội dung trang -->
             <div class="content">
                 <div class="content-header-st">
                     <div class="title-list-emp">
@@ -97,7 +98,7 @@
                     </div>
                 </div>
 
-                <!-- Hiển thị các chức năng -->
+                <!-- Hiển thị các chức năng chính -->
                 <div class="content-header-nd">
                     <div class="wrap-filter-emp">
                         <div class="wrap-search-bar">
@@ -159,7 +160,7 @@
                 <!-- Hiển thị phân trang -->
                 <div class="paging-section mg-top">
                     <div class="paging-section-left">
-                        <span>Hiển thị 1-10/1000 nhân viên</span>
+                        <span>Hiển thị <b>1-<b class="total-row-page"></b>/<b class="total-count"></b></b> nhân viên</span>
                     </div>
                     <div class="paging-section-center">
                         <div class="route-page">
@@ -172,7 +173,7 @@
                         <div class="numb-page">2</div>
                         <div class="numb-page">3</div>
                         <div class="numb-page">4</div>
-                        <div class="route-page">
+                        <div class="route-page next-page">
                             <i class="fa-regular fa-angle-right fa-1x"></i>
                         </div>
                         <div class="route-page">
@@ -180,12 +181,20 @@
                         </div>
                     </div>
                     <div class="paging-section-right">
-                        <span>10 nhân viên/trang</span>
+                        <span>                            
+                            <select class="row-page">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            </select> nhân viên/trang</span>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Modal form employee -->
     <div class="modal-emp" id="EmployeeDetail">
         <div class="modal-overlay"></div>
         <div class="modal-body">
@@ -208,7 +217,7 @@
                     </div>
                     <div class="custom-file" style="display: none;">
                         <label for="fileupload">Upload Profile</label>
-                        <input type="file" id="fileupload">
+                        <input type="file" id="fileupload" accept=".jpg, .jpeg, .png, .gif">
                     </div>
                 </div>
                 <div class="modal-content">
@@ -218,7 +227,7 @@
                     <div class="input-control-wrap">
                         <div class="input-control">
                             <label class="label-input">Mã nhân viên (<span style="color: red;">*</span>)</label>
-                            <input class="base-input" FieldName="employeeCode" Required type="text" id="auto-focus" name="employeeCode">
+                            <input class="base-input" FieldName="employeeCode" Required type="text" id="auto-focus" name="employeeCode" checkCode empCode>
                         </div>
                         <div class="input-control">
                             <label class="label-input">Họ và tên (<span style="color: red;">*</span>)</label>
@@ -322,6 +331,7 @@
         </div>
     </div>
 
+    <!-- Pop Up Notice -->
     <div class="pop-up-notice" ItemId="">
         <div class="pop-up-overlay"></div>
             <div class="pop-up-body">
@@ -351,6 +361,7 @@
             </div>
     </div>
 
+    <!-- Toast message -->
     <div class="toast-success">
         <div class="toast-messenger">
             <div class="toast-content-left">
@@ -359,6 +370,18 @@
             </div>
             <div class="toast-content-right">
                 <i class="far fa-times icon-success-close"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-warning">
+        <div class="toast-messenger">
+            <div class="toast-content-left">
+                <i class="fas fa-exclamation-circle icon-warning"></i>
+                <p>Mã nhân viên đã được sử dụng. Vui lòng thử lại!</p>
+            </div>
+            <div class="toast-content-right">
+                <i class="far fa-times icon-warning-close"></i>
             </div>
         </div>
     </div>
@@ -376,12 +399,13 @@
     </div>
 
     <!-- Thư viện jquery và fontawesome -->
-    <script src="../js/jquery/jquery-3.2.1.min.js"></script>
-    <script src="../js/jquery/jquery-validation-1.19.5/dist/jquery.validate.js"></script>
+    <script src="../assets/libs/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../assets/libs/jquery/jquery-validation-1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../js/common/script.js"></script>
-    <!-- Các thành phần dùng chung -->
 
+    <!-- Các thành phần dùng chung -->
     <script src="../js/common/active.js"></script>
+    <script src="../js/common/toast.js"></script>
     <script src="../js/common/common.js"></script>
     <script src="../js/common/enum.js"></script>
     <script src="../js/common/resource.js"></script>

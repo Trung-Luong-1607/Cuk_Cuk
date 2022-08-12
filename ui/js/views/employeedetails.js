@@ -19,14 +19,8 @@ class EmployeeDetail{
         // Lưu lại mã nhân viên mới nhất
         me.saveNewCode = "";
 
-        // Upload link ảnh đại diện
-        me.upLoadImage();
-
         // Hủy sự kiên submit mặc định của form
         me.removeEventSubmitForm();
-
-        // Kiểm tra trùng mã nhân viên
-        // me.checkDuplicateEmployeeCode();
     }
 
     /**
@@ -196,8 +190,10 @@ class EmployeeDetail{
     fixErrorNotFoundImage() {
         let me = this,
         notFoundImage = "../assets/images/default-avatar.jpg";	
-		$(".safelyLoadImage").attr("onerror", "this.onerror=null; this.src='" + notFoundImage + "';");			
-		$(".safelyLoadImage").removeClass("safelyLoadImage");	
+            $(".safelyLoadImage").on("error", function() {
+            $(this).attr("src", notFoundImage);
+            $(this).removeClass("safelyLoadImage");
+        });
     }
 
     // Mở form
@@ -222,7 +218,8 @@ class EmployeeDetail{
             });
 
             me.form.show();
-            // me.fixErrorNotFoundImage();
+            me.upLoadImage();
+            me.fixErrorNotFoundImage();
             autoFocus.focus();
             // reset dữ liệu
             me.resetForm();
@@ -290,14 +287,14 @@ class EmployeeDetail{
     save(){
         let me = this,
             isValid = me.validateForm();
+
             // Kiểm tra validate form
             if(isValid){
             // Lưu data
             let data = me.getFormData();
             if ($('#FormEmployee').valid()) {
                 me.saveData(data);
-            }
-        }
+            }}
         }
 
     validateForm() {
@@ -368,31 +365,40 @@ class EmployeeDetail{
     /**
      * Kiểm tra trùng mã nhân viên
      */
-
         checkDuplicateEmployeeCode() {
             let me = this,  
             isValid = true,      
             empCode = $("input[FieldName='employeeCode']"),
-            currentEmpCode = localStorage.getItem('employeeCode'),
-            url = "https://localhost:7256/api/v1/Employees/check-duplicate-Employee-Code?code=" + empCode.val();
+            toastWarning = $(".toast-warning"),
+            currentEmpCode = empCode.attr("empCode");
+            // checkCode = empCode.attr("checkCode"),
+            // url = "https://localhost:7256/api/v1/Employees/check-duplicate-Employee-Code?code=" + empCode.val()
             
+
+            // CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
+            //     if(response){ 
+            //         empCode.attr("checkCode", response.checkEmployeeCode);
+            //     } else{
+            //         alert("Có lỗi xảy ra. Vui lòng thử lại!");
+            //     } 
+            // });
+
             if(currentEmpCode === empCode.val() && me.formMode == Enumeration.FormMode.Edit) {
                 isValid = true;         
-            } else {
-            CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
-                if(response){ 
-                    if(response.checkEmployeeCode === 1) {
+            } else {  
+                let result = me.parent.cacheData[0].data.filter(function(item) {
+                    return item.employeeCode === empCode.val();
+                });
+   
+                if(result.length != 0) {
                     isValid = false;
-                    alert("Mã nhân viên đã được sử dụng. Vui lòng thử lại!")
+                    toastWarning.show();
+                    setTimeout(function(){
+                        toastWarning.hide();
+                    }, 2000);
+                } else {
+                    isValid = true;
                 }
-                else {
-                isValid = true;
-                }
-
-                } else{
-                    alert("Có lỗi xảy ra. Vui lòng thử lại!");
-                }                
-            });
         }
             return isValid;
         }

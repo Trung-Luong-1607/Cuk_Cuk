@@ -1,5 +1,5 @@
 
-.toast-success, .toast-error {
+.toast-success, .toast-error, .toast-warning {
     display: none;
 }
 
@@ -33,13 +33,22 @@
     color: #2fbe8e;
 }
 
-.icon-success, .icon-error {
+.icon-success, .icon-error, .icon-warning {
     margin: 0 8px 0 0;
 }
 
 .icon-error, .icon-error-close {
     font-size: 24px;
     color: #EA4451;
+}
+
+.icon-warning, .icon-warning-close {
+    font-size: 24px;
+    color: #ffcc00;
+}
+
+.icon-error-close, .icon-warning-close, .icon-success-close {
+    cursor: pointer;
 }
 
  

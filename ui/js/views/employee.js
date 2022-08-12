@@ -12,6 +12,11 @@ class EmployeePage{
         // Lấy dữ liệu từ server
         me.getDataServer();
 
+        // Lưu lại dữ liệu
+        me.cacheData = [];
+
+        me.totalCount = [];
+
         // Làm mới dữ liệu
         me.refreshData();
 
@@ -36,8 +41,14 @@ class EmployeePage{
         // Lấy dữ liệu department input 
         me.getDataDepartmentInput();
 
-        // Refresh page
+        // Refresh data
         me.refresh();
+
+        // Lấy dữ liệu số lượng bản ghi / trang
+        me.getRowOfPage();
+
+        me.bindRowOfPage();
+
     }
 
     
@@ -111,8 +122,37 @@ class EmployeePage{
         me.duplicateEvent();
     }
 
+    // Show total count
+    showTotalCount() {
+        let me = this,
+        totalCount = $(".paging-section-left .total-count");
+        totalCount.text(me.totalCount[0]);
+        me.getPageNumber();
+    }
+
+    getPageNumber() {
+        let me = this,
+        totalCountRecord = me.totalCount[0],
+        totalCountNumber = Math.ceil(totalCountRecord / parseInt($('.row-page').val())),
+        currentPage = $(".numb-page").text();
+        // $(".next-page").click(function() {
+        //     $(".paging-section-center").find(".numb-page").text(parseInt(currentPage) + 1)
+        // });
+        // console.log(totalCountNumber);
+        // for(let i = 1; i <= totalCountNumber; i++) {
+        //     $(".numb-page").text() = i;
+        // }
+    }
+
+    // Bind row of page
+    bindRowOfPage() {
+        let me = this,
+        totalRow = $(".paging-section-left .total-row-page");
+        totalRow.text($('.row-page').val());
+    }
+
     // Khởi tạo sự kiện click button delete
-        initButtonDeleteClick(){
+        initButtonDeleteClick() {
             let me = this;   
             // Khởi tạo các sự kiện button trên form
             $("button[CommandType='delete']").click(function() {
@@ -293,7 +333,8 @@ class EmployeePage{
      */
     refresh(){
         let me = this;
-        me.getDataServer();
+        // me.getDataServer();
+        me.getData();
         me.formDetail.getNewCodeToServer();
     }
 
@@ -367,6 +408,7 @@ class EmployeePage{
 
             $("#gridEmployee").attr("ItemId",employeeID);
             $(".pop-up-notice").attr("ItemId",employeeID);
+            $("input[FieldName='employeeCode']").attr("empCode",employeeCode);
 
             // Lấy Id để phân biệt các bản ghi
             me.ItemId = me.grid.attr("ItemId");
@@ -396,7 +438,7 @@ class EmployeePage{
         phoneNumber = $('#search-input').val(),
         position = $('#position-input').attr('ItemId'),
         department = $('#department-input').attr('ItemId'),
-        pageSize = 100,
+        pageSize = $('.row-page').val(),
         pageNumber = 1,
         params = "code=" + code + "&name=" + name + "&phoneNumber=" + phoneNumber + 
             "&positionID=" + position + "&departmentID=" + department +
@@ -404,6 +446,8 @@ class EmployeePage{
         url = "https://localhost:7256/api/v1/Employees?" + params;
         CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
         if(response){
+            me.totalCount = [response.totalCount];
+            me.showTotalCount();
             me.loadData(response);
         }else{
             console.log("Có lỗi khi lấy dữ liệu từ server");
@@ -446,12 +490,20 @@ class EmployeePage{
         });
     }
 
+    getRowOfPage() {
+        let me = this;
+        $('.row-page').on('change', function() {
+            me.bindRowOfPage();
+            me.getData();
+        });
+    }
+
     /**
-     * Hàm lấy dữ liệu từ server xong binding lên grid
+     * Hàm lấy dữ liệu từ server
      */
         getDataServer(){
             let me = this,
-                pageSize = 100,
+                pageSize = 1000,
                 pageNumber = 1,
                 params = "pageSize=" + pageSize + "&pageNumber=" + pageNumber,
                 url = "https://localhost:7256/api/v1/Employees?" + params;
@@ -459,6 +511,7 @@ class EmployeePage{
             // Gọi ajax lấy dữ liệu trên server
             CommonFn.Ajax(url, Resource.Method.Get, {}, function(response){
                 if(response){ 
+                    me.cacheData = [response];
                     me.loadData(response);
                 }else{
                     console.log("Có lỗi khi lấy dữ liệu từ server");
